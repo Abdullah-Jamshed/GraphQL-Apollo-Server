@@ -21,9 +21,6 @@ const resolvers = {
   Query: {
     users: () => users,
     user: (parent, { id }) => users.find(({ id: userId }) => userId === Number(id)),
-    a: (parent, { id }) => {
-      return { b: 1 };
-    },
   },
 };
 
