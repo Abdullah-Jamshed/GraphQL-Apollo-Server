@@ -7,18 +7,23 @@ const typeDefs = gql`
     users: [User!]
     user(id: ID!): User
   }
+
   type User {
-    id: Int
+    id: ID!
     firstName: String
     lastName: String
     email: String
     password: String
   }
 `;
+
 const resolvers = {
   Query: {
     users: () => users,
-    user: (parent, { id }) => users.filter(({ id: userId }) => userId === Number(id))[0],
+    user: (parent, { id }) => users.find(({ id: userId }) => userId === Number(id)),
+    a: (parent, { id }) => {
+      return { b: 1 };
+    },
   },
 };
 
