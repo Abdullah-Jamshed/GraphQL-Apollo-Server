@@ -1,7 +1,7 @@
 const { ApolloServer, gql } = require("apollo-server");
 
 const users = require("./data/users");
-const messages = require("./data/messages");
+let messages = require("./data/messages");
 
 const typeDefs = gql`
   type Query {
@@ -30,6 +30,7 @@ const typeDefs = gql`
   type Mutation {
     createUser(firstName: String, lastName: String, email: String, password: String): User
     createMessage(text: String): Message
+    deleteMessage(id: ID!): Boolean!
   }
 `;
 
@@ -49,9 +50,16 @@ const resolvers = {
     },
     createMessage: (parent, { text }, { me }) => {
       messages.push({ id: messages.length + 1, text, userId: me.id });
-      me.messageIds = [...me.messageIds, messages.length + 1];
-      console.log(me.messageIds);
+      me.messageIds.push(messages.length + 1);
       return messages.slice(-1)[0];
+    },
+    deleteMessage: (parent, { id }) => {
+       message = messages.find((message) => message.id === Number(id));
+      if (!message) {
+        return false;
+      }
+      messages = messages.filter((message) => message.id !== Number(id));
+      return true;
     },
   },
 
