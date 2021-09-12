@@ -1,35 +1,18 @@
 const { gql } = require("apollo-server");
 
-const typeDefs = gql`
+const userSchema = require("./user");
+const messageSchema = require("./message");
+
+const linkSchema = gql`
   type Query {
-    users: [User!]
-    user(id: ID!): User
-    me: User
-    message(id: ID!): Message
-    messages: [Message!]!
+    _: Boolean
   }
-
-  type Message {
-    id: ID!
-    text: String!
-    user: User!
-  }
-
-  type User {
-    id: ID!
-    firstName: String
-    lastName: String
-    email: String
-    password: String
-    messageIds: [ID!]
-  }
-
   type Mutation {
-    createUser(firstName: String, lastName: String, email: String, password: String): User
-    createMessage(text: String): Message
-    deleteMessage(id: ID!): Boolean!
-    updateMessage(id: ID!, text: String!): Boolean!
+    _: Boolean
+  }
+  type Subscription {
+    _: Boolean
   }
 `;
 
-module.exports = typeDefs;
+module.exports = [linkSchema, userSchema, messageSchema];
