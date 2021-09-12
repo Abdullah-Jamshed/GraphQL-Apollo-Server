@@ -3,10 +3,6 @@ const { ApolloServer, gql } = require("apollo-server");
 const users = require("./data/users");
 const messages = require("./data/messages");
 
-// function indexNumber(source) {
-//   return Math.round(Math.random() * (source.length - 1));
-// }
-
 const typeDefs = gql`
   type Query {
     users: [User!]
