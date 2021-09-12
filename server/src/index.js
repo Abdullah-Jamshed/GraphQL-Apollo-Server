@@ -1,72 +1,10 @@
-const { ApolloServer, gql } = require("apollo-server");
+const { ApolloServer } = require("apollo-server");
 
+// DATA
 const users = require("./data/users");
-let messages = require("./data/messages");
 
-const typeDefs = gql`
-  type Query {
-    users: [User!]
-    user(id: ID!): User
-    me: User
-    message(id: ID!): Message
-    messages: [Message!]!
-  }
-
-  type Message {
-    id: ID!
-    text: String!
-    user: User!
-  }
-
-  type User {
-    id: ID!
-    firstName: String
-    lastName: String
-    email: String
-    password: String
-    messageIds: [ID!]
-  }
-
-  type Mutation {
-    createUser(firstName: String, lastName: String, email: String, password: String): User
-    createMessage(text: String): Message
-    deleteMessage(id: ID!): Boolean!
-  }
-`;
-
-const resolvers = {
-  Query: {
-    users: () => users,
-    user: (parent, { id }) => users.find(({ id: userId }) => userId === Number(id)),
-    me: (parent, args, { me }) => me,
-    message: (parent, { id }) => messages.find((message) => message.id === Number(id)),
-    messages: () => messages,
-  },
-
-  Mutation: {
-    createUser: (parent, { firstName, lastName, email, password }) => {
-      users.push({ id: users.length + 1, firstName, lastName, email, password, messageIds: [] });
-      return users.slice(-1)[0];
-    },
-    createMessage: (parent, { text }, { me }) => {
-      messages.push({ id: messages.length + 1, text, userId: me.id });
-      me.messageIds.push(messages.length + 1);
-      return messages.slice(-1)[0];
-    },
-    deleteMessage: (parent, { id }) => {
-       message = messages.find((message) => message.id === Number(id));
-      if (!message) {
-        return false;
-      }
-      messages = messages.filter((message) => message.id !== Number(id));
-      return true;
-    },
-  },
-
-  Message: {
-    user: (message) => users.find((user) => user.id === Number(message.userId)),
-  },
-};
+const typeDefs = require("./schema");
+const resolvers = require("./resolvers");
 
 const indexNumber = (source) => Math.round(Math.random() * (source.length - 1));
 
