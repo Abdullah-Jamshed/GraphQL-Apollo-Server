@@ -24,10 +24,12 @@ const typeDefs = gql`
     lastName: String
     email: String
     password: String
+    messageIds: [ID!]
   }
 
   type Mutation {
-    user(firstName: String, lastName: String, email: String, password: String): User
+    createUser(firstName: String, lastName: String, email: String, password: String): User
+    createMessage(text: String): Message
   }
 `;
 
@@ -41,11 +43,18 @@ const resolvers = {
   },
 
   Mutation: {
-    user: (parent, args) => {
-      users.push({ id: users.length + 1, firstName: args.firstName, lastName: args.lastName, email: args.email, password: args.password });
+    createUser: (parent, { firstName, lastName, email, password }) => {
+      users.push({ id: users.length + 1, firstName, lastName, email, password, messageIds: [] });
       return users.slice(-1)[0];
     },
+    createMessage: (parent, { text }, { me }) => {
+      messages.push({ id: messages.length + 1, text, userId: me.id });
+      me.messageIds = [...me.messageIds, messages.length + 1];
+      console.log(me.messageIds);
+      return messages.slice(-1)[0];
+    },
   },
+
   Message: {
     user: (message) => users.find((user) => user.id === Number(message.userId)),
   },
