@@ -1,7 +1,7 @@
 const { gql } = require("apollo-server");
 
 const message = gql`
-extend type Query {
+  extend type Query {
     message(id: ID!): Message
     messages: [Message!]!
   }
@@ -12,8 +12,12 @@ extend type Query {
     user: User!
   }
 
+  input TextInput {
+    text: String!
+  }
+
   extend type Mutation {
-    createMessage(text: String): Message
+    createMessage(input: TextInput): Message
     deleteMessage(id: ID!): Boolean!
     updateMessage(id: ID!, text: String!): Boolean!
   }

@@ -8,7 +8,7 @@ const messageResolvers = {
   },
 
   Mutation: {
-    createMessage: (parent, { text }, { me }) => {
+    createMessage: (parent, { input: { text } }, { me }) => {
       messages.push({ id: messages.length + 1, text, userId: me.id });
       me.messageIds.push(messages.length + 1);
       return messages.slice(-1)[0];
