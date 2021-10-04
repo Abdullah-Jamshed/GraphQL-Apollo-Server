@@ -13,6 +13,7 @@ const messageResolvers = {
       me.messageIds.push(messages.length + 1);
       return messages.slice(-1)[0];
     },
+
     deleteMessage: (parent, { id }) => {
       const index = messages.findIndex((message) => message.id === Number(id));
       if (index < 0) return false;
