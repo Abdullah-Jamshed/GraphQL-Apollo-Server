@@ -6,9 +6,11 @@ const message = gql`
     messages: [Message!]!
   }
 
+  directive @deprecated(reason: String = "No longer supported") on FIELD_DEFINITION | ARGUMENT_DEFINITION | OBJECT
+
   type Message {
-    id: ID!
-    text: String!
+    id: ID! @depricate(reason:"New field 'id' ")
+    text: String! 
     user: User!
   }
 
