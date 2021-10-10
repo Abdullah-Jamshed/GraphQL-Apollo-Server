@@ -7,7 +7,7 @@ const user = gql`
     me: User
   }
 
-  type User {
+  extend type User {
     id: ID!
     firstName: String
     lastName: String

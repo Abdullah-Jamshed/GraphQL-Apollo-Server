@@ -8,7 +8,7 @@ const message = gql`
 
   directive @deprecated(reason: String = "No longer supported") on FIELD_DEFINITION
 
-  type Message {
+  extend type Message {
     id: ID! @deprecated(reason: "New field id")
     text: String!
     user: User!
