@@ -1,15 +1,23 @@
 const users = require("../data/users");
 
 const userResolvers = {
+  // Gender: {
+  //   MALE: "blue",
+  //   FEMALE: "pink",
+  // },
+
   Query: {
-    users: () => users,
+    users: (_parent, { gender }) => {
+      if (gender) return users.filter(({ gender: gen }) => gen === gender);
+      return users;
+    },
     user: (parent, { id }) => users.find(({ id: userId }) => userId === Number(id)),
     me: (parent, args, { me }) => me,
   },
 
   Mutation: {
-    createUser: (parent, { firstName, lastName, email, password }) => {
-      users.push({ id: users.length + 1, firstName, lastName, email, password, messageIds: [] });
+    createUser: (parent, { firstName, lastName, email, password, gender }) => {
+      users.push({ id: users.length + 1, firstName, lastName, email, password, gender, messageIds: [] });
       return users.slice(-1)[0];
     },
   },
