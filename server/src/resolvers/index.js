@@ -18,18 +18,22 @@ const indexResolvers = {
   },
 
   Query: {
-    search: () => {
-      return [
-        {
-          firstName: "sxs",
-        },
-        {
-          firstName: "ds",
-        },
-        {
-          text: "sdf",
-        },
-      ];
+    search: (_, { contain }, info) => {
+      function searchFunc(arr, contain) {
+        return arr.filter((obj) => {
+          var flag = false;
+          Object.keys(obj).find((key) => {
+            if (String(obj[key]).search(contain) >= 0) {
+              flag = true;
+              return true;
+            }
+          });
+          return flag;
+        });
+      }
+      var res1 = searchFunc(messages, contain);
+      var res2 = searchFunc(users, contain);
+      return [...res1, ...res2];
     },
   },
 };

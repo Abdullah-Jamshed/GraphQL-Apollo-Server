@@ -16,7 +16,7 @@ const linkSchema = gql`
 
   type Query {
     _: Boolean
-    search(contain: String): [Search]
+    search(contain: String): [Search!]!
   }
   type Mutation {
     _: Boolean
