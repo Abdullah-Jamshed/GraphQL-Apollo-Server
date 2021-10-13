@@ -4,6 +4,24 @@ const message = gql`
   extend type Query {
     message(id: ID!): Message
     messages: [Message!]!
+    books: [Book!]!
+  }
+
+  interface Book {
+    title: String!
+    author: String!
+  }
+
+  type TextBook implements Book {
+    title: String!
+    author: String!
+    course: String!
+  }
+
+  type ColoringBook implements Book {
+    title: String!
+    author: String!
+    color: String!
   }
 
   directive @deprecated(reason: String = "No longer supported") on FIELD_DEFINITION

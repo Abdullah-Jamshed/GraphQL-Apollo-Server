@@ -1,10 +1,24 @@
 const users = require("../data/users");
 const messages = require("../data/messages");
+const books = require("../data/books");
 
 const messageResolvers = {
   Query: {
     message: (parent, { id }) => messages.find((message) => message.id === Number(id)),
     messages: () => messages,
+    books: () => books,
+  },
+
+  Book: {
+    __resolveType(obj) {
+      if (obj.course) {
+        return "TextBook";
+      }
+      if (obj.color) {
+        return "ColoringBook";
+      }
+      return null;
+    },
   },
 
   Mutation: {

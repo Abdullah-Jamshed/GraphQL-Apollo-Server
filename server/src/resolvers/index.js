@@ -14,7 +14,7 @@ const indexResolvers = {
         return "User";
       }
       return null;
-    },
+    }
   },
 
   Query: {
