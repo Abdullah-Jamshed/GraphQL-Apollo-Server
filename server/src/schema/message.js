@@ -25,10 +25,11 @@ const message = gql`
   }
 
   directive @deprecated(reason: String = "No longer supported") on FIELD_DEFINITION
+  directive @upper(if: Boolean! = true) on FIELD_DEFINITION
 
   extend type Message {
     id: ID! @deprecated(reason: "New field id")
-    text: String!
+    text(upper: Boolean = true): String! @upper
     user: User!
   }
 

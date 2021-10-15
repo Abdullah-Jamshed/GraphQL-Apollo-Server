@@ -68,6 +68,13 @@
   dependencies:
     tslib "~2.3.0"
 
+"@graphql-tools/utils@^8.2.5":
+  version "8.2.5"
+  resolved "https://registry.yarnpkg.com/@graphql-tools/utils/-/utils-8.2.5.tgz#695e6d760c1187ad2b159d5d3c4696eff9c08a27"
+  integrity sha512-k/Rktklhy22dQfbJLKiLGfQymQCTr6Rd2BilC7g2Yk6wFSzVLYr8jeXNoTD+/p61XBQzBjTVayskvaMvNS3BDg==
+  dependencies:
+    tslib "~2.3.0"
+
 "@josephg/resolvable@^1.0.0":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@josephg/resolvable/-/resolvable-1.0.1.tgz#69bc4db754d79e1a2f17a650d3466e038d94a5eb"

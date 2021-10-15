@@ -1,0 +1,37 @@
+[
+  {
+    "title": "book1",
+    "author": "author1",
+    "course": "course1"
+  },
+  {
+    "title": "book2",
+    "author": "author2",
+    "course": "course2"
+  },
+  {
+    "title": "book1c",
+    "author": "author1c",
+    "color": "blue"
+  },
+  {
+    "title": "book2c",
+    "author": "author2c",
+    "color": "red"
+  },
+  {
+    "title": "book3",
+    "author": "author3",
+    "course": "course3"
+  },
+  {
+    "title": "book4",
+    "author": "author4",
+    "course": "course4"
+  },
+  {
+    "title": "book5",
+    "author": "author5",
+    "course": "course5"
+  }
+]

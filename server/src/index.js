@@ -1,22 +1,33 @@
-const { ApolloServer } = require("apollo-server");
 
-// DATA
-const users = require("./data/users");
 
-const typeDefs = require("./schema");
-const resolvers = require("./resolvers");
+// ********************        SERVER SETUP WITH "apollo-server"    ********************
 
-const indexNumber = (source) => Math.round(Math.random() * (source.length - 1));
-const server = new ApolloServer({
-  typeDefs,
-  resolvers,
-  context: {
-    me: users[indexNumber(users)],
-  },
-});
-server.listen({ port: 8080 }).then(({ url }) => console.log(`🚀 GraphQL server running at ${url}`));
 
-// SERVER SETUP WITH  *** apollo-server-express ***
+// const { ApolloServer } = require("apollo-server");
+
+// // DATA
+// const users = require("./data/users");
+
+// const typeDefs = require("./schema");
+// const resolvers = require("./resolvers");
+
+// const indexNumber = (source) => Math.round(Math.random() * (source.length - 1));
+// const server = new ApolloServer({
+//   typeDefs,
+//   resolvers,
+//   context: {
+//     me: users[indexNumber(users)],
+//   },
+// });
+// server.listen({ port: 8080 }).then(({ url }) => console.log(`🚀 GraphQL server running at ${url}`));
+
+
+
+
+
+
+// ********************        SERVER SETUP WITH "apollo-server-express"    ********************
+
 
 // const { ApolloServer } = require("apollo-server-express");
 // const app = require("express")();
@@ -40,30 +51,33 @@ server.listen({ port: 8080 }).then(({ url }) => console.log(`🚀 GraphQL server
 
 
 
+// ********************        SERVER SETUP WITH "apollo-server CUSTOM DIRECTIVE"    ********************
 
+const { ApolloServer } = require("apollo-server");
 
+// DATA
+const users = require("./data/users");
 
+const typeDefs = require("./schema");
+const resolvers = require("./resolvers");
 
+const { makeExecutableSchema } = require("@graphql-tools/schema");
+const upperDirectiveTransformer = require("./directives/uppercase");
 
+const indexNumber = (source) => Math.round(Math.random() * (source.length - 1));
 
-// const { makeExecutableSchema } = require("@graphql-tools/schema");
-// const upperDirectiveTransformer = require("./directives/uppercase");
+// Create the base executable schema
+let schema = makeExecutableSchema({
+  typeDefs,
+  resolvers,
+  context: {
+    me: users[indexNumber(users)],
+  },
+});
 
+// Transform the schema by applying directive logic
+schema = upperDirectiveTransformer(schema, "upper");
 
-// const indexNumber = (source) => Math.round(Math.random() * (source.length - 1));
-
-// // Create the base executable schema
-// let schema = makeExecutableSchema({
-//   typeDefs,
-//   resolvers,
-//   context: {
-//     me: users[indexNumber(users)],
-//   },
-// });
-
-// // Transform the schema by applying directive logic
-// schema = upperDirectiveTransformer(schema, "upper");
-
-// // Provide the schema to the ApolloServer constructor
-// const server = new ApolloServer({ schema });
-// server.listen({ port: 8080 }).then(({ url }) => console.log(`🚀 GraphQL server running at ${url}`));
+// Provide the schema to the ApolloServer constructor
+const server = new ApolloServer({ schema });
+server.listen({ port: 8080 }).then(({ url }) => console.log(`🚀 GraphQL server running at ${url}`));
