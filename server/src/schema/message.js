@@ -27,10 +27,13 @@ const message = gql`
   directive @deprecated(reason: String = "No longer supported") on FIELD_DEFINITION
   directive @upper(if: Boolean! = true) on FIELD_DEFINITION
 
+  scalar Date
+
   extend type Message {
     id: ID! @deprecated(reason: "New field id")
     text(upper: Boolean = true): String! @upper
     user: User!
+    date: Date!
   }
 
   input TextInput {

@@ -70,14 +70,16 @@ const indexNumber = (source) => Math.round(Math.random() * (source.length - 1));
 let schema = makeExecutableSchema({
   typeDefs,
   resolvers,
-  context: {
-    me: users[indexNumber(users)],
-  },
 });
 
 // Transform the schema by applying directive logic
 schema = upperDirectiveTransformer(schema, "upper");
 
 // Provide the schema to the ApolloServer constructor
-const server = new ApolloServer({ schema });
+const server = new ApolloServer({
+  schema,
+  context: {
+    me: users[indexNumber(users)],
+  },
+});
 server.listen({ port: 8080 }).then(({ url }) => console.log(`🚀 GraphQL server running at ${url}`));
