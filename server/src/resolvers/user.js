@@ -1,10 +1,13 @@
 const users = require("../data/users");
+const { emailScalar } = require("../directives/scalar");
 
 const userResolvers = {
   // Gender: {
   //   MALE: "blue",
   //   FEMALE: "pink",
   // },
+
+  Email: emailScalar,
 
   Query: {
     users: (_parent, { gender }) => {

@@ -7,11 +7,13 @@ const user = gql`
     me: User
   }
 
+  scalar Email
+
   extend type User {
     id: ID!
     firstName: String
     lastName: String
-    email: String
+    email: Email!
     password: String
     messageIds: [ID!]
     gender: Gender
