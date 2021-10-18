@@ -2,6 +2,7 @@ const users = require("../data/users");
 const messages = require("../data/messages");
 const books = require("../data/books");
 const { dateScalar } = require("../directives/scalar");
+const { GraphQLError } = require("graphql");
 
 const messageResolvers = {
   Query: {
@@ -26,6 +27,7 @@ const messageResolvers = {
 
   Mutation: {
     createMessage: (parent, { input: { text } }, { me }) => {
+      if (!me) throw new GraphQLError("user not loggedIn");
       const date = new Date();
       messages.push({ id: messages.length + 1, text, date, userId: me.id });
       me.messageIds.push(messages.length + 1);

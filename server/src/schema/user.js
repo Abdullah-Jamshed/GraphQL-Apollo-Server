@@ -26,6 +26,7 @@ const user = gql`
 
   extend type Mutation {
     createUser(firstName: String, lastName: String, email: String, password: String, gender: Gender): User
+    loggedIn(email: String, password: String): String!
   }
 `;
 

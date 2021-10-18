@@ -1,7 +1,4 @@
-
-
 // ********************        SERVER SETUP WITH "apollo-server"    ********************
-
 
 // const { ApolloServer } = require("apollo-server");
 
@@ -21,13 +18,7 @@
 // });
 // server.listen({ port: 8080 }).then(({ url }) => console.log(`🚀 GraphQL server running at ${url}`));
 
-
-
-
-
-
 // ********************        SERVER SETUP WITH "apollo-server-express"    ********************
-
 
 // const { ApolloServer } = require("apollo-server-express");
 // const app = require("express")();
@@ -48,9 +39,6 @@
 
 // startApolloServer(typeDefs, resolvers);
 
-
-
-
 // ********************        SERVER SETUP WITH "apollo-server CUSTOM DIRECTIVE"    ********************
 
 const { ApolloServer } = require("apollo-server");
@@ -63,6 +51,7 @@ const resolvers = require("./resolvers");
 
 const { makeExecutableSchema } = require("@graphql-tools/schema");
 const upperDirectiveTransformer = require("./directives/uppercase");
+const { getUser } = require("./utils");
 
 const indexNumber = (source) => Math.round(Math.random() * (source.length - 1));
 
@@ -78,8 +67,17 @@ schema = upperDirectiveTransformer(schema, "upper");
 // Provide the schema to the ApolloServer constructor
 const server = new ApolloServer({
   schema,
-  context: {
-    me: users[indexNumber(users)],
+  context: ({ req }) => {
+    // Get the user token from the headers.
+    const token = req.headers.authorization || "";
+
+    // Try to retrieve a user with the token
+    const user = getUser(token);
+    console.log("user ===>>> ", user);
+    // Add the user to the context
+    // return { user };
+    return { me: user };
   },
 });
+
 server.listen({ port: 8080 }).then(({ url }) => console.log(`🚀 GraphQL server running at ${url}`));
