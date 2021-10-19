@@ -75,7 +75,6 @@ const server = new ApolloServer({
     const user = getUser(token);
     console.log("user ===>>> ", user);
     // Add the user to the context
-    // return { user };
     return { me: user };
   },
 });

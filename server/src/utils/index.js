@@ -1,5 +1,7 @@
 const jwt = require("jsonwebtoken");
 
+const users = require("../data/users.json");
+
 // const getUser = (token) => {
 //   const data = jwt.verify(token, "secret", (err, decoded) => {
 //     console.log("decoded ===>>> ", decoded);
@@ -14,9 +16,11 @@ const jwt = require("jsonwebtoken");
 const getUser = (token) => {
   try {
     const data = jwt.verify(token, "secret");
-    if (data) return data;
+    if (data) {
+      return users.find((user) => user.id === data.id) || null;
+    }
     return null;
-  } catch {
+  } catch (error) {
     return null;
   }
 };

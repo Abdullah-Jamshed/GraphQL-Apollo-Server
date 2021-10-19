@@ -38,8 +38,9 @@ const userResolvers = {
     loggedIn: async (parent, { email, password }) => {
       const userExists = users.find((user) => user.email === email);
       if (userExists && (await verifyPass(password, userExists.password))) {
-        const { password, ...data } = userExists;
-        return jwt.sign(data, "secret", { expiresIn: "1h" });
+        const { id } = userExists;
+        // const { password, messageIds, ...data } = userExists;
+        return jwt.sign({ id }, "secret", { expiresIn: "1h" });
       } else {
         return "username or password is wrong";
       }

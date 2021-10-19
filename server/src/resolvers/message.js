@@ -30,7 +30,8 @@ const messageResolvers = {
       if (!me) throw new GraphQLError("user not loggedIn");
       const date = new Date();
       messages.push({ id: messages.length + 1, text, date, userId: me.id });
-      me.messageIds.push(messages.length + 1);
+      const user = users.find((user) => user.id === me.id);
+      user.messageIds.push(messages.length + 1);
       return messages.slice(-1)[0];
     },
 
